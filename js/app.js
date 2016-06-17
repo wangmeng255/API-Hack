@@ -46,7 +46,7 @@ $(function() {
 });
 function getValueofUnits(submitArr) {
 	$.ajax({
-		url: "http://api.census.gov/data/"+ submitArr[1].value + "/acs1",
+		url: "//api.census.gov/data/"+ submitArr[1].value + "/acs1",
 		data: "get=B25075_001E,B25075_001M,B25075_002E,B25075_002M,B25075_003E,B25075_003M," +
 		"B25075_004E,B25075_004M,B25075_005E,B25075_005M,B25075_006E,B25075_006M,B25075_007E," +
 		"B25075_007M,B25075_008E,B25075_008M,B25075_009E,B25075_009M,B25075_010E,B25075_010M," +
