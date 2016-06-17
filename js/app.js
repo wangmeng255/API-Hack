@@ -1,49 +1,73 @@
+"use strict"
 $(function() {
 	$("#dist").change(function() {
-		$(".selectG").get(0).classList.remove("selectG");
-		$("#0" + $(this).val()).get(0).classList.add("selectG");
+		//$(".selectG").get(0).classList.remove("selectG");
+		//var district = $("#0" + $(this).val());
+		//district.get(0).classList.add("selectG");
+		$(".selectG").find("path").remove();
+		var district = $("#0" + $(this).val()).clone();
+		$(".selectG").append(district.find("path").get(0));
 	});
-	google.charts.load('current', {'packages':['bar']});
-    google.charts.setOnLoadCallback(drawStuff);
 	
 	$("form").submit(function(event) {
     	event.preventDefault();
     	getValueofUnits($(this).serializeArray());
     });
-
-	function drawStuff() {
-        var data = new google.visualization.arrayToDataTable([
-          ['Galaxy', 'Distance', 'Brightness'],
-          ['Canis Major Dwarf', 8000, 23.3],
-          ['Sagittarius Dwarf', 24000, 4.5],
-          ['Ursa Major II Dwarf', 30000, 14.3],
-          ['Lg. Magellanic Cloud', 50000, 0.9],
-          ['Bootes I', 60000, 13.1]
-        ]);
-
-        var options = {
-          width: 900,
-          chart: {
-            title: 'Nearby galaxies',
-            subtitle: 'distance on the left, brightness on the right'
-          },
-          series: {
-            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
-            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
-          },
-          axes: {
-            y: {
-              distance: {label: 'parsecs'}, // Left y-axis.
-              brightness: {side: 'right', label: 'apparent magnitude'} // Right y-axis.
-            }
-          }
-        };
-
-      var chart = new google.charts.Bar(document.getElementById('dual_y_div'));
-      chart.draw(data, options);
-    };
-
+    google.charts.load('current', {'packages':['bar']});
+	google.charts.setOnLoadCallback(drawStuff);
 });
+var label = {
+	B25075_001E: "Total",
+	B25075_001M: "Margin of Error",
+	B25075_002E: "Less than $10,000",
+	B25075_002M: "Margin of Error",
+	B25075_003E: "$10,000 to $14,999",
+	B25075_003M: "Margin of Error",
+	B25075_004E: "$15,000 to $19,999",
+	B25075_004M: "Margin of Error",
+	B25075_005E: "$20,000 to $24,999",
+	B25075_005M: "Margin of Error",
+	B25075_006E: "$25,000 to $29,999",
+	B25075_006M: "Margin of Error",
+	B25075_007E: "$30,000 to $34,999",
+	B25075_007M: "Margin of Error",
+	B25075_008E: "$35,000 to $39,999",
+	B25075_008M: "Margin of Error",
+	B25075_009E: "$40,000 to $49,999",
+	B25075_009M: "Margin of Error",
+    B25075_010E: "$50,000 to $59,999",
+	B25075_010M: "Margin of Error",
+	B25075_011E: "$60,000 to $69,999",
+	B25075_011M: "Margin of Error",
+	B25075_012E: "$70,000 to $79,999",
+	B25075_012M: "Margin of Error",
+	B25075_013E: "$80,000 to $89,999",
+	B25075_013M: "Margin of Error",
+	B25075_014E: "$90,000 to $99,999",
+	B25075_014M: "Margin of Error",
+	B25075_015E: "$100,000 to $124,999",
+	B25075_015M: "Margin of Error",
+	B25075_016E: "$125,000 to $149,999",
+	B25075_016M: "Margin of Error",
+	B25075_017E: "$150,000 to $174,999",
+	B25075_017M: "Margin of Error",
+	B25075_018E: "$175,000 to $199,999",
+	B25075_018M: "Margin of Error",
+	B25075_019E: "$200,000 to $249,999",
+	B25075_019M: "Margin of Error",
+	B25075_020E: "$250,000 to $299,999",
+	B25075_020M: "Margin of Error",
+	B25075_021E: "$300,000 to $399,999",
+	B25075_021M: "Margin of Error",
+	B25075_022E: "$400,000 to $499,999",
+	B25075_022M: "Margin of Error",
+	B25075_023E: "$500,000 to $749,999",
+	B25075_023M: "Margin of Error",
+	B25075_024E: "$750,000 to $999,999",
+	B25075_024M: "Margin of Error",
+	B25075_025E: "$1,000,000 or more",
+	B25075_025M: "Margin of Error"
+};
 function getValueofUnits(submitArr) {
 	$.ajax({
 		url: "//api.census.gov/data/"+ submitArr[1].value + "/acs1",
@@ -60,10 +84,49 @@ function getValueofUnits(submitArr) {
 		type: "GET"
 	})
 	.done(function(result) {
-		console.log(result);
+		//console.log(result);
+		$('#data-chart').children().remove();
+		if(result) {
+			if(result[1][2]) {
+				var resultData = [];
+				resultData.push(["Price", "Number of Units", "Margin of Error"]);
+				for(var i=2; i<result[0].length-2; i+=2) {
+					var temp = [];
+					temp.push(label[result[0][i]]);
+					temp.push(parseInt(result[1][i]));
+					temp.push(parseInt(result[1][i+1]));
+					resultData.push(temp);
+				}
+				console.log(resultData);
+	    		drawStuff(resultData, submitArr);
+			}
+			else {
+				$('#data-chart').append("<p>Result are null.</p>");
+			}
+		}
+		else {
+			$('#data-chart').append("<p>This district is not in " + submitArr[1].value + " survey.</p>");
+		}
 	})
 	.fail(function(jqXHR, error) {
-		var errorElem = showError(error);
-		$('.data-chart').append(errorElem);
+		$('#data-chart').append("<p>" + error + "<p>");
 	});
 }
+function drawStuff(resultData, submitArr) {
+		var data = google.visualization.arrayToDataTable(resultData);
+        var options = {
+          width: 85*16,
+          height: 500,
+          chart: {
+            title: 'California Unified District Home Value',
+            subtitle: $("option[value="+submitArr[0].value+"]").text()
+          },
+          series: {
+            0: { axis: 'Number of Units' }, // Bind series 0 to an axis named 'distance'.
+            1: { axis: 'Margin of Error' } // Bind series 1 to an axis named 'brightness'.
+          }
+        };
+
+      var chart = new google.charts.Bar(document.getElementById('data-chart'));
+      chart.draw(data, options);
+    };

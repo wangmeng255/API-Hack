@@ -52,12 +52,25 @@ form div:last-child {
 label, input, select {
 	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 }
 input[type="submit"] {
 	width: 7rem;
 	height: 3.5rem;
 }
 .selectG {
-	fill: #F9A825;
+	fill: #FFD600;
+	outline: 5px solid #F57F17;
+}
+#data-chart {
+	text-align: center;
+	color: white;
+	font-size: 2rem;
+}
+#data-chart p {
+	background-color: #808080;
+}
+#data-chart div {
+	margin: auto;
+	font-size: 1rem;
 }
