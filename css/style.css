@@ -1,0 +1,63 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+header {
+	text-align: center;
+	padding: 0.5rem;
+	background-color: #F9A825;
+	color: #FFFDE7;
+}
+.upper {
+	display: flex;
+	flex-direction: row;
+}
+.dist-svg {
+	text-align: center;
+	flex-grow: 0.25;
+}
+.dist-svg svg {
+	width: 40rem;
+	height: 24rem;
+}
+.user-form {
+	font-size: 1.2rem;
+	flex-grow: 1;
+}
+.user-form form {
+	margin: auto;
+}
+fieldset {
+	width: 40rem;
+	height: 22rem;
+	margin-top: 1rem;
+	margin-left: 1.5rem;
+	margin-bottom: 1rem;
+	border-radius: 0.5rem;
+}
+form {
+	width: 40rem;
+	height: 22rem;
+	display: flex;
+	flex-direction: row;
+}
+form div:first-child {
+	margin: 1.5rem 0 1.5rem 2.5rem;
+	width: 28rem;
+}
+form div:last-child {
+	margin: 1.5rem 1.5rem 1.5rem 0;
+	width: 10rem;
+}
+label, input, select {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 1.2rem;
+}
+input[type="submit"] {
+	width: 7rem;
+	height: 3.5rem;
+}
+.selectG {
+	fill: #F9A825;
+}
