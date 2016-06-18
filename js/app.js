@@ -7,6 +7,7 @@ $(function() {
 		$(".selectG").find("path").remove();
 		var district = $("#0" + $(this).val()).clone();
 		$(".selectG").append(district.find("path").get(0));
+		//console.log($("select[name='dist'] option"));
 	});
 	
 	$("form").submit(function(event) {
@@ -14,7 +15,10 @@ $(function() {
     	getValueofUnits($(this).serializeArray());
     });
     google.charts.load('current', {'packages':['bar']});
-	google.charts.setOnLoadCallback(drawStuff);
+    //This call back will call the drawChart() 
+    //as soon as the visulization library is loaded, 
+    //(but I didn't wanted it, i wanted to call it on button click).
+	//google.charts.setOnLoadCallback(drawStuff);
 });
 var label = {
 	B25075_001E: "Total",
@@ -97,11 +101,11 @@ function getValueofUnits(submitArr) {
 					temp.push(parseInt(result[1][i+1]));
 					resultData.push(temp);
 				}
-				console.log(resultData);
+				//console.log(resultData);
 	    		drawStuff(resultData, submitArr);
 			}
 			else {
-				$('#data-chart').append("<p>Result are null.</p>");
+				$('#data-chart').append("<p>Sorry, results are null.</p>");
 			}
 		}
 		else {
@@ -115,11 +119,11 @@ function getValueofUnits(submitArr) {
 function drawStuff(resultData, submitArr) {
 		var data = google.visualization.arrayToDataTable(resultData);
         var options = {
-          width: 85*16,
+          width: 80*16,
           height: 500,
           chart: {
-            title: 'California Unified District Home Value',
-            subtitle: $("option[value="+submitArr[0].value+"]").text()
+            title: 'Value of Home in ' + $("option[value=" + submitArr[0].value+"]").text(),
+            subtitle: 'California Unified School District, ' + submitArr[1].value
           },
           series: {
             0: { axis: 'Number of Units' }, // Bind series 0 to an axis named 'distance'.
