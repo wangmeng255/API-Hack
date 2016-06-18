@@ -128,7 +128,8 @@ function drawStuff(resultData, submitArr) {
           series: {
             0: { axis: 'Number of Units' }, // Bind series 0 to an axis named 'distance'.
             1: { axis: 'Margin of Error' } // Bind series 1 to an axis named 'brightness'.
-          }
+          },
+          colors: ['#F9A825', '#B0B0B0']
         };
 
       var chart = new google.charts.Bar(document.getElementById('data-chart'));
