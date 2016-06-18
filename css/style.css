@@ -68,7 +68,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background: linear-gradient(to bottom, #E0E0E0 5%, #BDBDBD 100%);
 }
-.selectG {
+.selectG path {
 	fill: #FFD600;
 	outline: 5px solid #F57F17;
 }

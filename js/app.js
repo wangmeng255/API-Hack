@@ -4,10 +4,11 @@ $(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
 		//var district = $("#0" + $(this).val());
 		//district.get(0).classList.add("selectG");
-		$(".selectG").find("path").remove();
-		var district = $("#0" + $(this).val()).clone();
-		$(".selectG").append(district.find("path").get(0));
-		//console.log($("select[name='dist'] option"));
+		$(".selectG").children().remove();
+		var district = $("#0" + $(this).val()).children().clone();
+		console.log(district.get());
+		for(var i=0; i<district.get().length; i++)
+			$(".selectG").append(district.get(i));
 	});
 	
 	$("form").submit(function(event) {
