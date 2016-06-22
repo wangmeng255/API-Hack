@@ -29,15 +29,8 @@ header {
 .user-form form {
 	margin: auto;
 }
-.fieldset-form {
-	width: 39rem;
-	height: 22rem;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-	border-radius: 0.5rem;
-}
 form {
-	width: 38rem;
+	width: 39rem;
 	height: 21rem;
 }
 form>div {
