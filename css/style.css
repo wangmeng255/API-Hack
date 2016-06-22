@@ -1,7 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
-	font-family:  Arial, Helvetica, sans-serif;
+	font-family:  "Roboto", sans-serif;
 }
 header {
 	text-align: center;
@@ -19,6 +19,7 @@ header {
 	text-align: center;
 }
 .dist-svg svg {
+	margin-top: 0.5rem;
 	width: 38rem;
 	height: 22.8rem;
 }
@@ -28,45 +29,71 @@ header {
 .user-form form {
 	margin: auto;
 }
-fieldset {
+.fieldset-form {
 	width: 39rem;
 	height: 22rem;
 	margin-top: 1rem;
-	margin-left: 1.5rem;
 	margin-bottom: 1rem;
 	border-radius: 0.5rem;
 }
 form {
 	width: 38rem;
-	height: 22rem;
+	height: 21rem;
+}
+form>div {
+	margin-top: 0.8rem;
 	display: flex;
 	flex-direction: row;
+	justify-content: space-around;
 }
-form div:first-child {
-	margin: 1.5rem 0 1.5rem 2.5rem;
-	width: 27rem;
+form>div:first-child {
+	align-items: flex-start;
 }
-form div:last-child {
-	margin: 1.5rem 1.5rem 1.5rem 0;
-	width: 9rem;
+form>div:last-child {
+	align-items: flex-end;
 }
 label, input, select {
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.8rem;
 	font-size: 1.1rem;
 }
-input[type="submit"] {
+#dist, #show-dist {
+	width: 23rem;
+}
+#dist {
+	overflow: hidden;
+}
+#add, #remove, #year {
 	width: 7rem;
-	height: 3.5rem;
-	font-size: 1.3rem;
+}
+#add, #remove {
 	border-radius: 2px;
 	background-color: #E0E0E0;
-    color: #000000;
     border: 1px solid #212121;
     cursor: pointer;
 }
-input[type="submit"]:hover {
+.sub {
+	width: 7rem;
+	height: 3rem;
+	font-size: 1.3rem;
+	border-radius: 2px;
+	background-color: #E0E0E0;
+    border: 1px solid #212121;
+    cursor: pointer;
+}
+input[type="submit"]:hover,
+input[type="button"]:hover {
 	background: linear-gradient(to bottom, #E0E0E0 5%, #BDBDBD 100%);
+}
+.waiting {
+	background-image: url("../img/waiting.gif");
+	background-repeat: no-repeat;
+	background-size: 3rem 3rem;
+	background-position: center;
+	border: 0px none;
+	background-color: transparent;
+}
+input[disabled] {
+	pointer-events: none;
 }
 .selectG path {
 	fill: #FFD600;
@@ -87,7 +114,7 @@ input[type="submit"]:hover {
 	margin: auto;
 	font-size: 1rem;
 }
-@media only screen and (max-device-width: 980px) {
+@media only screen and (max-width: 980px) {
 	.upper {
 		width: 40rem;
 		margin: auto;

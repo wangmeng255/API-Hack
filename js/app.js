@@ -1,25 +1,49 @@
 "use strict"
 $(function() {
-	$("#dist").change(function() {
+	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
 		//var district = $("#0" + $(this).val());
 		//district.get(0).classList.add("selectG");
 		$(".selectG").children().remove();
 		var district = $("#0" + $(this).val()).children().clone();
-		console.log(district.get());
 		for(var i=0; i<district.get().length; i++)
 			$(".selectG").append(district.get(i));
 	});
-	
+	$("#add").click(function() {
+    if($("#dist option").length < 2) { 
+      var selectOption = $("#show-dist option:selected").clone();
+      selectOption.text(selectOption.text() + ", " + $("#year option:selected").val());
+      $("#dist").append(selectOption);
+      if($("#dist option").length===2) $("input[type='submit']").prop("disabled", false);
+    }
+    else alert("You already chosen two districs.");
+  });
+  $("#remove").click(function() {
+    if($("#dist option").length > 0) {
+      $("#dist option:selected").remove();
+      if($("#dist option").length < 2) $("input[type='submit']").prop("disabled", true);
+    }
+    else alert("Nothing to remove.");
+  });
 	$("form").submit(function(event) {
     	event.preventDefault();
-    	getValueofUnits($(this).serializeArray());
+
+      var submitButt = $("input[type='submit']");
+      submitButt.toggleClass("waiting");
+      submitButt.prop("disabled", true);
+      submitButt.val("");
+
+      var submitArr = [];
+      submitArr.push(getsubmitObject($("#dist option:first-child")));
+      submitArr.push(getsubmitObject($("#dist option:last-child")));
+      getValueofUnits(submitArr, submitButt);
     });
-    google.charts.load('current', {'packages':['bar']});
+
+    google.charts.load('current', {'packages':['corechart']});
     //This call back will call the drawChart() 
     //as soon as the visulization library is loaded, 
     //(but I didn't wanted it, i wanted to call it on button click).
-	//google.charts.setOnLoadCallback(drawStuff);
+	  //google.charts.setOnLoadCallback(drawStuff);
 });
 var label = {
 	B25075_001E: "Total",
@@ -40,7 +64,7 @@ var label = {
 	B25075_008M: "Margin of Error",
 	B25075_009E: "$40,000 to $49,999",
 	B25075_009M: "Margin of Error",
-    B25075_010E: "$50,000 to $59,999",
+  B25075_010E: "$50,000 to $59,999",
 	B25075_010M: "Margin of Error",
 	B25075_011E: "$60,000 to $69,999",
 	B25075_011M: "Margin of Error",
@@ -73,66 +97,106 @@ var label = {
 	B25075_025E: "$1,000,000 or more",
 	B25075_025M: "Margin of Error"
 };
-function getValueofUnits(submitArr) {
-	$.ajax({
-		url: "//api.census.gov/data/"+ submitArr[1].value + "/acs1",
-		data: "get=B25075_001E,B25075_001M,B25075_002E,B25075_002M,B25075_003E,B25075_003M," +
-		"B25075_004E,B25075_004M,B25075_005E,B25075_005M,B25075_006E,B25075_006M,B25075_007E," +
-		"B25075_007M,B25075_008E,B25075_008M,B25075_009E,B25075_009M,B25075_010E,B25075_010M," +
-		"B25075_011E,B25075_011M,B25075_012E,B25075_012M,B25075_013E,B25075_013M,B25075_014E," +
-		"B25075_014M,B25075_015E,B25075_015M,B25075_016E,B25075_016M,B25075_017E,B25075_017M," +
-		"B25075_018E,B25075_018M,B25075_019E,B25075_019M,B25075_020E,B25075_020M,B25075_021E," +
-		"B25075_021M,B25075_022E,B25075_022M,B25075_023E,B25075_023M,B25075_024E,B25075_024M," +
-		"B25075_025E,B25075_025M&for=school+district+(unified):" + submitArr[0].value.slice(1) +
-		"&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
-		dataType: "json",
-		type: "GET"
-	})
-	.done(function(result) {
-		//console.log(result);
-		$('#data-chart').children().remove();
-		if(result) {
-			if(result[1][2]) {
-				var resultData = [];
-				resultData.push(["Price", "Number of Units", "Margin of Error"]);
-				for(var i=2; i<result[0].length-2; i+=2) {
-					var temp = [];
-					temp.push(label[result[0][i]]);
-					temp.push(parseInt(result[1][i]));
-					temp.push(parseInt(result[1][i+1]));
-					resultData.push(temp);
-				}
-				//console.log(resultData);
-	    		drawStuff(resultData, submitArr);
+var getsubmitObject = function(tempDist) {
+  var tempArr = tempDist.text().split(",");
+  var submitObject = {name: tempArr[0], year: tempArr[1].slice(1), id: tempDist.val()};
+  return submitObject;
+};
+
+function getValueofUnits(submitArr, submitButt) {
+  function ajax0() {
+      return $.ajax({
+      url: "//api.census.gov/data/"+ submitArr[0].year + "/acs1",
+      data: "get=B25075_001E,B25075_001M,B25075_002E,B25075_002M,B25075_003E,B25075_003M," +
+      "B25075_004E,B25075_004M,B25075_005E,B25075_005M,B25075_006E,B25075_006M,B25075_007E," +
+      "B25075_007M,B25075_008E,B25075_008M,B25075_009E,B25075_009M,B25075_010E,B25075_010M," +
+      "B25075_011E,B25075_011M,B25075_012E,B25075_012M,B25075_013E,B25075_013M,B25075_014E," +
+      "B25075_014M,B25075_015E,B25075_015M,B25075_016E,B25075_016M,B25075_017E,B25075_017M," +
+      "B25075_018E,B25075_018M,B25075_019E,B25075_019M,B25075_020E,B25075_020M,B25075_021E," +
+      "B25075_021M,B25075_022E,B25075_022M,B25075_023E,B25075_023M,B25075_024E,B25075_024M," +
+      "B25075_025E,B25075_025M&for=school+district+(unified):" + submitArr[0].id.slice(1) +
+      "&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
+      dataType: "json",
+      type: "GET"
+    });
+  }
+  function ajax1() {
+      return $.ajax({
+      url: "//api.census.gov/data/"+ submitArr[1].year + "/acs1",
+      data: "get=B25075_001E,B25075_001M,B25075_002E,B25075_002M,B25075_003E,B25075_003M," +
+      "B25075_004E,B25075_004M,B25075_005E,B25075_005M,B25075_006E,B25075_006M,B25075_007E," +
+      "B25075_007M,B25075_008E,B25075_008M,B25075_009E,B25075_009M,B25075_010E,B25075_010M," +
+      "B25075_011E,B25075_011M,B25075_012E,B25075_012M,B25075_013E,B25075_013M,B25075_014E," +
+      "B25075_014M,B25075_015E,B25075_015M,B25075_016E,B25075_016M,B25075_017E,B25075_017M," +
+      "B25075_018E,B25075_018M,B25075_019E,B25075_019M,B25075_020E,B25075_020M,B25075_021E," +
+      "B25075_021M,B25075_022E,B25075_022M,B25075_023E,B25075_023M,B25075_024E,B25075_024M," +
+      "B25075_025E,B25075_025M&for=school+district+(unified):" + submitArr[1].id.slice(1) +
+      "&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
+      dataType: "json",
+      type: "GET"
+    });
+  }
+	$.when(ajax0(), ajax1())
+	.done(function(result0, result1) {
+    //console.log(result0);
+    //console.log(result1);
+
+		$("#data-chart").children().remove();
+		if(result0[0][1][2] || result1[0][1][2]) {
+			var resultData = [];
+			resultData.push(["Price", 
+        submitArr[0].name + " in " + submitArr[0].year, 
+        submitArr[1].name + " in " + submitArr[1].year]);
+      if(!result0[0][1][2]) resultData[0][1] = "Results are null";
+      if(!result1[0][1][2]) resultData[0][2] = "Results are null";
+			for(var i=2; i<result0[0][0].length-2; i+=2) {
+				var temp = [];
+				temp.push(label[result0[0][0][i]]);
+				temp.push(parseInt(result0[0][1][i]));
+				temp.push(parseInt(result1[0][1][i]));
+				resultData.push(temp);
 			}
-			else {
-				$('#data-chart').append("<p>Sorry, results are null.</p>");
-			}
+	   	drawStuff(resultData, submitArr);
+      $("#dist").children().remove();
 		}
 		else {
-			$('#data-chart').append("<p>This district is not in " + submitArr[1].value + " survey.</p>");
+			$("#data-chart").append("<p>Sorry, both results are null.</p>");
 		}
 	})
 	.fail(function(jqXHR, error) {
 		$('#data-chart').append("<p>" + error + "<p>");
-	});
+	})
+  .always(function() {
+    submitButt.toggleClass("waiting");
+    submitButt.val("Submit");
+  });
 }
 function drawStuff(resultData, submitArr) {
 		var data = google.visualization.arrayToDataTable(resultData);
-        var options = {
-          width: 80*16,
-          height: 500,
-          chart: {
-            title: 'Value of Home in ' + $("option[value=" + submitArr[0].value+"]").text(),
-            subtitle: 'California Unified School District, ' + submitArr[1].value
-          },
-          series: {
-            0: { axis: 'Number of Units' }, // Bind series 0 to an axis named 'distance'.
-            1: { axis: 'Margin of Error' } // Bind series 1 to an axis named 'brightness'.
-          },
-          colors: ['#F9A825', '#B0B0B0']
-        };
-
-      var chart = new google.charts.Bar(document.getElementById('data-chart'));
-      chart.draw(data, options);
+    var tempStr = "";
+    var tempArr = submitArr[0].name.split(" ");
+    for(var i=0; i<tempArr.length-3; i++)
+      tempStr += tempArr[i] + " ";
+    tempStr += "and ";
+    tempArr = submitArr[1].name.split(" ");
+    for(var i=0; i<tempArr.length-3; i++)
+      tempStr += tempArr[i] + " ";
+    var chartWidth = 80;
+    if($(document).width()<=980) chartWidth = 45;
+    var options = {
+      width: chartWidth*16,
+      height: 500,
+      title: "Value of Home in " + tempStr + "Unified School Districts",
+      subtitle: submitArr[0].year + " and " + submitArr[1].year,
+      vAxis: {title: "Number of Units"},
+      hAxis: {title: "Price"},
+      seriesType: "bars",
+      series: {
+        0: { color:"#F9A825"},
+        1: { color:"#D0D0D0"}
+      }
     };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('data-chart'));
+    chart.draw(data, options);
+};
