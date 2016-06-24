@@ -54,8 +54,9 @@ label, input, select {
 }
 #dist {
 	overflow: hidden;
-	height: 4rem;
-	outline: 1px solid #BDBDBD;
+	height: 3.5rem;
+	border-radius: 2px;
+	border: 1px solid #BDBDBD;
 }
 #add, #reset, #year {
 	width: 7rem;
@@ -67,6 +68,7 @@ label, input, select {
     cursor: pointer;
 }
 .sub {
+	margin-bottom: 0;
 	width: 7rem;
 	height: 3rem;
 	font-size: 1.3rem;
@@ -95,6 +97,7 @@ input[disabled] {
 	outline: 5px solid #F57F17;
 }
 #data-chart {
+	margin-top: 1rem;
 	text-align: center;
 	color: #FAFAFA;
 	font-size: 2rem;

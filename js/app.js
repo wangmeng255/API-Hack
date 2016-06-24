@@ -1,5 +1,6 @@
 "use strict"
 $(function() {
+  /*
   $.address.init(function(event) {
     $("form").address();
   })
@@ -13,7 +14,8 @@ $(function() {
     }
     console.log('.',event.parameters);
     $('form').deserialize(event.parameters);
-  });
+  });*/
+
 	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
 		//var district = $("#0" + $(this).val());
@@ -23,50 +25,51 @@ $(function() {
 		for(var i=0; i<district.get().length; i++)
 			$(".selectG").append(district.get(i));
 	});
+
 	$("#add").click(function() {
-    var selectOption = $("#show-dist option:selected").clone();
-    console.log('hello world');
-    console.log(selectOption.val());
-    selectOption.text(selectOption.text() + ", " + $("#year option:selected").val());
-    console.log($("#dist option").length);
-    if($("#dist option").length === 0) { // if nothing has been added yet
-      $('input[name="d1"]').val(selectOption.val());
-      $('input[name="d1y"]').val($("#year option:selected").val());
-    } else if($("#dist option").length === 1) {
-      $('input[name="d2"]').val(selectOption.val());
-      $('input[name="d2y"]').val($("#year option:selected").val());
+    var selectOption = $("#show-dist option:selected");
+    var selectYear = $("#year option:selected");
+
+    if(!$("#dist td").length) { // if nothing has been added yet
+      $("input[name='dist1']").val(selectOption.val());
+      $("input[name='dist1']").text(selectOption.text());
+      $("input[name='year1']").val(selectYear.val());
+      $("#dist tr:first-child").append("<td>" + selectOption.text() + "</td>");
+      $("#dist tr:first-child").append("<td>" + selectYear.text() + "</td>");
+
+    } else if($("#dist td").length === 2) { // if one district has been added
+      $("input[name='dist2']").val(selectOption.val());
+      $("input[name='dist2']").text(selectOption.text());
+      $("input[name='year2']").val(selectYear.val());
+      $("#dist tr:last-child").append("<td>" + selectOption.text() + "</td>");
+      $("#dist tr:last-child").append("<td>" + selectYear.text() + "</td>");
     }
 
-    $("#dist").append(selectOption);
-    if($("#dist option").length===2) {
-        $("input[type='submit']").prop("disabled", false);
-        $("#add").prop("disabled", true);
+    if($("#dist td").length === 4) {
+      $("input[type='submit']").get(0).disabled = false;
+      $("#add").get(0).disabled = true;
     }
-    else $("#add").prop("disabled", false);
-    $("#reset").prop("disabled", false);
+    else $("#add").get(0).disabled = false;
+    $("#reset").get(0).disabled = false;
   });
+
   $("#reset").click(function() {
-    $("#dist option:selected").remove();
-    if($("#dist option").length < 2) {
-      $("input[type='submit']").prop("disabled", true);
-    }
-    if($("#dist option").length === 0) {
-      $("#reset").prop("disabled", true);
-    } else $("#reset").prop("disabled", false);
-    $("#add").prop("disabled", false);
+    $("#dist td").remove();
+
+    $("#reset").get(0).disabled = true;
+    $("#add").get(0).disabled = false;
+    $("input[type='submit']").get(0).disabled = true;
   });
+
 	$("form").submit(function(event) {
     	event.preventDefault();
 
       var submitButt = $("input[type='submit']");
       submitButt.toggleClass("waiting");
-      submitButt.prop("disabled", true);
+      submitButt.get(0).disabled = true;
       submitButt.val("");
 
-      var submitArr = [];
-      submitArr.push(getsubmitObject($("#dist option:first-child")));
-      submitArr.push(getsubmitObject($("#dist option:last-child")));
-
+      var submitArr = getsubmitObject($("form").serializeArray());
       getValueofUnits(submitArr, submitButt);
     });
 
@@ -128,9 +131,18 @@ var label = {
 	B25075_025E: "$1,000,000 or more",
 	B25075_025M: "Margin of Error"
 };
-var getsubmitObject = function(tempDist) {
-  var tempArr = tempDist.text().split(",");
-  var submitObject = {name: tempArr[0], year: tempArr[1].slice(1), dist: tempDist.val()};
+var getsubmitObject = function(formArr) {
+  var submitObject = [];
+  submitObject.push({ 
+                      name: $("input[name='dist1']").text(),
+                      dist: formArr[0].value.slice(1),
+                      year: formArr[2].value
+                    });
+  submitObject.push({ 
+                      name: $("input[name='dist2']").text(),
+                      dist: formArr[1].value.slice(1),
+                      year: formArr[3].value
+                    });
   return submitObject;
 };
 function getDistrictData(submitYear, submitDist) {
@@ -151,8 +163,8 @@ function getDistrictData(submitYear, submitDist) {
   }
 function getValueofUnits(submitArr, submitButt) {
 	$.when(
-    getDistrictData(submitArr[0].year, submitArr[0].dist.slice(1)),
-    getDistrictData(submitArr[1].year, submitArr[1].dist.slice(1))
+    getDistrictData(submitArr[0].year, submitArr[0].dist),
+    getDistrictData(submitArr[1].year, submitArr[1].dist)
   )
 	.done(function(result0, result1) {
     //console.log(result0);
@@ -164,8 +176,8 @@ function getValueofUnits(submitArr, submitButt) {
 			resultData.push(["Price",
         submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
-      if(!result0[0][1][2]) resultData[0][1] = "Results are null";
-      if(!result1[0][1][2]) resultData[0][2] = "Results are null";
+      if(!result0[0][1][2]) resultData[0][1] = submitArr[0].name + " is not in the survey";
+      if(!result1[0][1][2]) resultData[0][2] = submitArr[1].name + " is not in the survey";
 			for(var i=2; i<result0[0][0].length-2; i+=2) {
 				var temp = [];
 				temp.push(label[result0[0][0][i]]);
@@ -174,10 +186,9 @@ function getValueofUnits(submitArr, submitButt) {
 				resultData.push(temp);
 			}
 	   	drawStuff(resultData, submitArr);
-      $("#dist").children().remove();
 		}
 		else {
-			$("#data-chart").append("<p>Sorry, both results are null.</p>");
+			$("#data-chart").append("<p>Sorry, both districts are not in the survey.</p>");
 		}
 	})
 	.fail(function(jqXHR, error) {
@@ -186,8 +197,9 @@ function getValueofUnits(submitArr, submitButt) {
   .always(function() {
     submitButt.toggleClass("waiting");
     submitButt.val("Submit");
-    $("#add").prop("disabled", false);
-    $("#reset").prop("disabled", true);
+    $("#dist td").remove();
+    $("#add").get(0).disabled =  false;
+    $("#reset").get(0).disabled = true;
   });
 }
 function drawStuff(resultData, submitArr) {
@@ -201,7 +213,7 @@ function drawStuff(resultData, submitArr) {
     for(var i=0; i<tempArr.length-3; i++)
       tempStr += tempArr[i] + " ";
     var chartWidth = 80;
-    if($(document).width()<=980) chartWidth = 45;
+    if($(document).width() <= 980) chartWidth = 45;
     var options = {
       width: chartWidth*16,
       height: 500,
