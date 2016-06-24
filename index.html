@@ -1170,16 +1170,30 @@
 							<option value="2012">2012</option>
 						</select><br>
 						<input type="button" id="add" value="Add" /><br>
-						<input type="button" id="remove" value="Remove" disabled />
+						<input type="button" id="reset" value="Reset" disabled />
 					</div>
 				</div>
 				<div>
 					<div>
 						<label for="dist">Compare Two Districts: </label><br>
-						<select name="dist" id="dist" size="2" multiple>
-						</select>
+						<table id="dist">
+							<tbody>
+								<tr>
+									<td> </td>
+									<td> </td>
+								</tr>
+								<tr>
+									<td> </td>
+									<td> </td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<input type="submit" class="sub" value="Submit" disabled />
+					<input type="hidden" name="dist1" value="" />
+						<input type="hidden" name="year1" value="" />
+						<input type="hidden" name="dist2" value="" />
+						<input type="hidden" name="year2" value="" />
 				</div>
 			</form>
 		</section>

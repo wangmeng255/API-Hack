@@ -54,11 +54,13 @@ label, input, select {
 }
 #dist {
 	overflow: hidden;
+	height: 4rem;
+	outline: 1px solid #BDBDBD;
 }
-#add, #remove, #year {
+#add, #reset, #year {
 	width: 7rem;
 }
-#add, #remove {
+#add, #reset {
 	border-radius: 2px;
 	background-color: #E0E0E0;
     border: 1px solid #212121;

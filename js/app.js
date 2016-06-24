@@ -26,16 +26,16 @@ $(function() {
         $("#add").prop("disabled", true);
     }
     else $("#add").prop("disabled", false);
-    $("#remove").prop("disabled", false);
+    $("#reset").prop("disabled", false);
   });
-  $("#remove").click(function() {
+  $("#reset").click(function() {
     $("#dist option:selected").remove();
     if($("#dist option").length < 2) {
       $("input[type='submit']").prop("disabled", true);
     }
     if($("#dist option").length === 0) {
-      $("#remove").prop("disabled", true);
-    } else $("#remove").prop("disabled", false);
+      $("#reset").prop("disabled", true);
+    } else $("#reset").prop("disabled", false);
     $("#add").prop("disabled", false);
   });
 	$("form").submit(function(event) {
@@ -170,7 +170,7 @@ function getValueofUnits(submitArr, submitButt) {
     submitButt.toggleClass("waiting");
     submitButt.val("Submit");
     $("#add").prop("disabled", false);
-    $("#remove").prop("disabled", true);
+    $("#reset").prop("disabled", true);
   });
 }
 function drawStuff(resultData, submitArr) {
