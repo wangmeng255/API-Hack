@@ -4,9 +4,15 @@ $(function() {
     $("form").address();
   })
   .change(function(event) {
-    if(event.path!="/") {
-      console.log(event);
+    if (event.value != '/') {
+    } else {
     }
+    console.log(event);
+    for (var p in event.parameters) {
+        event.parameters[p] = decodeURIComponent(event.parameters[p].replace(/\+/g, ' '));
+    }
+    console.log('.',event.parameters);
+    $('form').deserialize(event.parameters);
   });
 	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
@@ -19,7 +25,18 @@ $(function() {
 	});
 	$("#add").click(function() {
     var selectOption = $("#show-dist option:selected").clone();
+    console.log('hello world');
+    console.log(selectOption.val());
     selectOption.text(selectOption.text() + ", " + $("#year option:selected").val());
+    console.log($("#dist option").length);
+    if($("#dist option").length === 0) { // if nothing has been added yet
+      $('input[name="d1"]').val(selectOption.val());
+      $('input[name="d1y"]').val($("#year option:selected").val());
+    } else if($("#dist option").length === 1) {
+      $('input[name="d2"]').val(selectOption.val());
+      $('input[name="d2y"]').val($("#year option:selected").val());
+    }
+
     $("#dist").append(selectOption);
     if($("#dist option").length===2) {
         $("input[type='submit']").prop("disabled", false);
@@ -49,13 +66,13 @@ $(function() {
       var submitArr = [];
       submitArr.push(getsubmitObject($("#dist option:first-child")));
       submitArr.push(getsubmitObject($("#dist option:last-child")));
-      
+
       getValueofUnits(submitArr, submitButt);
     });
 
     google.charts.load('current', {'packages':['corechart']});
-    //This call back will call the drawChart() 
-    //as soon as the visulization library is loaded, 
+    //This call back will call the drawChart()
+    //as soon as the visulization library is loaded,
     //(but I ddistn't wanted it, i wanted to call it on button click).
 	  //google.charts.setOnLoadCallback(drawStuff);
 });
@@ -144,8 +161,8 @@ function getValueofUnits(submitArr, submitButt) {
 		$("#data-chart").children().remove();
 		if(result0[0][1][2] || result1[0][1][2]) {
 			var resultData = [];
-			resultData.push(["Price", 
-        submitArr[0].name + " in " + submitArr[0].year, 
+			resultData.push(["Price",
+        submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
       if(!result0[0][1][2]) resultData[0][1] = "Results are null";
       if(!result1[0][1][2]) resultData[0][2] = "Results are null";
