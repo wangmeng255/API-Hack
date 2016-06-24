@@ -4,7 +4,9 @@ $(function() {
     $("form").address();
   })
   .change(function(event) {
-    console.log(event);
+    if(event.path!="/") {
+      console.log(event);
+    }
   });
 	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
@@ -38,7 +40,7 @@ $(function() {
   });
 	$("form").submit(function(event) {
     	event.preventDefault();
-      console.log(event);
+
       var submitButt = $("input[type='submit']");
       submitButt.toggleClass("waiting");
       submitButt.prop("disabled", true);
