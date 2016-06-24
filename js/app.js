@@ -1,5 +1,11 @@
 "use strict"
 $(function() {
+  $.address.init(function(event) {
+    $("form").address();
+  })
+  .change(function(event) {
+    console.log(event);
+  });
 	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
 		//var district = $("#0" + $(this).val());
@@ -32,7 +38,7 @@ $(function() {
   });
 	$("form").submit(function(event) {
     	event.preventDefault();
-
+      console.log(event);
       var submitButt = $("input[type='submit']");
       submitButt.toggleClass("waiting");
       submitButt.prop("disabled", true);
@@ -41,13 +47,14 @@ $(function() {
       var submitArr = [];
       submitArr.push(getsubmitObject($("#dist option:first-child")));
       submitArr.push(getsubmitObject($("#dist option:last-child")));
+      
       getValueofUnits(submitArr, submitButt);
     });
 
     google.charts.load('current', {'packages':['corechart']});
     //This call back will call the drawChart() 
     //as soon as the visulization library is loaded, 
-    //(but I didn't wanted it, i wanted to call it on button click).
+    //(but I ddistn't wanted it, i wanted to call it on button click).
 	  //google.charts.setOnLoadCallback(drawStuff);
 });
 var label = {
@@ -104,7 +111,7 @@ var label = {
 };
 var getsubmitObject = function(tempDist) {
   var tempArr = tempDist.text().split(",");
-  var submitObject = {name: tempArr[0], year: tempArr[1].slice(1), id: tempDist.val()};
+  var submitObject = {name: tempArr[0], year: tempArr[1].slice(1), dist: tempDist.val()};
   return submitObject;
 };
 function getDistrictData(submitYear, submitDist) {
@@ -125,8 +132,8 @@ function getDistrictData(submitYear, submitDist) {
   }
 function getValueofUnits(submitArr, submitButt) {
 	$.when(
-    getDistrictData(submitArr[0].year, submitArr[0].id.slice(1)),
-    getDistrictData(submitArr[1].year, submitArr[1].id.slice(1))
+    getDistrictData(submitArr[0].year, submitArr[0].dist.slice(1)),
+    getDistrictData(submitArr[1].year, submitArr[1].dist.slice(1))
   )
 	.done(function(result0, result1) {
     //console.log(result0);
@@ -179,7 +186,7 @@ function drawStuff(resultData, submitArr) {
     var options = {
       width: chartWidth*16,
       height: 500,
-      title: "Value of Home in " + tempStr + "Unified School Districts",
+      title: "Real Estate Value of Home in " + tempStr + "Unified School Districts",
       subtitle: submitArr[0].year + " and " + submitArr[1].year,
       vAxis: {title: "Number of Units"},
       hAxis: {title: "Price"},
