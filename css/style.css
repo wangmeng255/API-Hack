@@ -58,6 +58,9 @@ label, input, select {
 	border-radius: 2px;
 	border: 2px solid #BDBDBD;
 }
+#dist td {
+	vertical-align: baseline;
+}
 #add, #reset, #year {
 	width: 7rem;
 }
