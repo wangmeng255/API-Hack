@@ -56,7 +56,7 @@ label, input, select {
 	overflow: hidden;
 	height: 3.5rem;
 	border-radius: 2px;
-	border: 1px solid #BDBDBD;
+	border: 2px solid #BDBDBD;
 }
 #add, #reset, #year {
 	width: 7rem;

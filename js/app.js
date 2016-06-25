@@ -1,20 +1,23 @@
 "use strict"
 $(function() {
-  /*
+
   $.address.init(function(event) {
     $("form").address();
   })
   .change(function(event) {
-    if (event.value != '/') {
-    } else {
-    }
-    console.log(event);
-    for (var p in event.parameters) {
-        event.parameters[p] = decodeURIComponent(event.parameters[p].replace(/\+/g, ' '));
-    }
-    console.log('.',event.parameters);
-    $('form').deserialize(event.parameters);
-  });*/
+    //deserialize would reset the inputs in form
+    //tempInput record the input selected iptions
+    var tempInput = [];
+    tempInput.push($("#show-dist option:selected"));
+    tempInput.push($("#year option:selected"));
+
+    
+    $("form").deserialize(event.parameters);
+
+    //restore the selected options
+    tempInput[0].get(0).selected = true;
+    tempInput[1].get(0).selected = true;
+  });
 
 	$("#show-dist").change(function() {
 		//$(".selectG").get(0).classList.remove("selectG");
@@ -176,8 +179,8 @@ function getValueofUnits(submitArr, submitButt) {
 			resultData.push(["Price",
         submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
-      if(!result0[0][1][2]) resultData[0][1] = submitArr[0].name + " is not in the survey";
-      if(!result1[0][1][2]) resultData[0][2] = submitArr[1].name + " is not in the survey";
+      if(!result0[0][1][2]) resultData[0][1] = submitArr[0].name + " is not in " + submitArr[0].year + " survey";
+      if(!result1[0][1][2]) resultData[0][2] = submitArr[1].name + " is not in " + submitArr[1].year + " survey";
 			for(var i=2; i<result0[0][0].length-2; i+=2) {
 				var temp = [];
 				temp.push(label[result0[0][0][i]]);
