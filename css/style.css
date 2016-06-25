@@ -20,7 +20,7 @@ header {
 }
 .dist-svg svg {
 	margin-top: 0.5rem;
-	width: 38rem;
+	width: 40rem;
 	height: 22.8rem;
 }
 .user-form {
@@ -30,7 +30,7 @@ header {
 	margin: auto;
 }
 form {
-	width: 39rem;
+	width: 40rem;
 	height: 21rem;
 }
 form>div {
@@ -50,7 +50,7 @@ label, input, select {
 	font-size: 1.1rem;
 }
 #dist, #show-dist {
-	width: 23rem;
+	width: 25rem;
 }
 #dist {
 	overflow: hidden;
