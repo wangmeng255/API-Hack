@@ -25,7 +25,7 @@ $(function() {
     //district.get(0).classList.add("selectG");
     $(".selectG").children().remove();
     var district = $("#0" + $(this).val()).children().clone();
-    for(var i=0; i<district.get().length; i++)
+    for(var i = 0; i < district.get().length; i++)
       $(".selectG").append(district.get(i));
   });
 
@@ -38,7 +38,11 @@ $(function() {
       $("input[name='dist1']").text(selectOption.text());
       $("input[name='year1']").val(selectYear.val());
       $("#dist tr:first-child").append("<td>" + selectOption.text() + "</td>");
-      $("#dist tr:first-child").append("<td>" + selectYear.text() + "</td>");
+      $("#dist tr:first-child").append(
+        "<td>" + 
+          selectYear.text() + 
+        "</td>"
+      );
 
     } else if($("#dist td").length === 2) { // if one district has been added
       $("input[name='dist2']").val(selectOption.val());
@@ -148,21 +152,15 @@ var getsubmitObject = function(formArr) {
   return submitObject;
 };
 function getDistrictData(submitYear, submitDist) {
-      return $.ajax({
-      url: "//api.census.gov/data/"+ submitYear + "/acs1",
-      data: "get=B25075_001E,B25075_001M,B25075_002E,B25075_002M,B25075_003E,B25075_003M," +
-      "B25075_004E,B25075_004M,B25075_005E,B25075_005M,B25075_006E,B25075_006M,B25075_007E," +
-      "B25075_007M,B25075_008E,B25075_008M,B25075_009E,B25075_009M,B25075_010E,B25075_010M," +
-      "B25075_011E,B25075_011M,B25075_012E,B25075_012M,B25075_013E,B25075_013M,B25075_014E," +
-      "B25075_014M,B25075_015E,B25075_015M,B25075_016E,B25075_016M,B25075_017E,B25075_017M," +
-      "B25075_018E,B25075_018M,B25075_019E,B25075_019M,B25075_020E,B25075_020M,B25075_021E," +
-      "B25075_021M,B25075_022E,B25075_022M,B25075_023E,B25075_023M,B25075_024E,B25075_024M," +
-      "B25075_025E,B25075_025M&for=school+district+(unified):" + submitDist +
-      "&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
-      dataType: "json",
-      type: "GET"
-    });
-  }
+  var code = Object.keys(label);
+  return $.ajax({
+    url: "//api.census.gov/data/"+ submitYear + "/acs1",
+    data: "get="+code.toString()+"&for=school+district+(unified):" + submitDist +
+    "&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
+    dataType: "json",
+    type: "GET"
+  });
+}
 function getValueofUnits(submitArr, submitButt) {
   $.when(
     getDistrictData(submitArr[0].year, submitArr[0].dist),
