@@ -77,8 +77,8 @@ label, input, select {
 	font-size: 1.3rem;
 	border-radius: 2px;
 	background-color: #E0E0E0;
-    border: 1px solid #212121;
-    cursor: pointer;
+	border: 1px solid #212121;
+	cursor: pointer;
 }
 input[type="submit"]:hover,
 input[type="button"]:hover {
