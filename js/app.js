@@ -37,7 +37,11 @@ $(function() {
       $("input[name='dist1']").val(selectOption.val());
       $("input[name='dist1']").text(selectOption.text());
       $("input[name='year1']").val(selectYear.val());
-      $("#dist tr:first-child").append("<td>" + selectOption.text() + "</td>");
+      $("#dist tr:first-child").append(
+        "<td>" + 
+          selectOption.text() + 
+        "</td>"
+      );
       $("#dist tr:first-child").append(
         "<td>" + 
           selectYear.text() + 
@@ -48,8 +52,16 @@ $(function() {
       $("input[name='dist2']").val(selectOption.val());
       $("input[name='dist2']").text(selectOption.text());
       $("input[name='year2']").val(selectYear.val());
-      $("#dist tr:last-child").append("<td>" + selectOption.text() + "</td>");
-      $("#dist tr:last-child").append("<td>" + selectYear.text() + "</td>");
+      $("#dist tr:last-child").append(
+        "<td>" + 
+          selectOption.text() + 
+        "</td>"
+      );
+      $("#dist tr:last-child").append(
+        "<td>" + 
+          selectYear.text() + 
+        "</td>"
+      );
     }
 
     if($("#dist td").length === 4) {
@@ -154,8 +166,9 @@ var getsubmitObject = function(formArr) {
 function getDistrictData(submitYear, submitDist) {
   var code = Object.keys(label);
   return $.ajax({
-    url: "//api.census.gov/data/"+ submitYear + "/acs1",
-    data: "get="+code.toString()+"&for=school+district+(unified):" + submitDist +
+    url: "//api.census.gov/data/" + submitYear + "/acs1",
+    data: "get=" + code.toString() + 
+    "&for=school+district+(unified):" + submitDist +
     "&in=state:06&key=e7f1f3b0b196081950597b4723850dbc8156d69b",
     dataType: "json",
     type: "GET"
@@ -176,9 +189,15 @@ function getValueofUnits(submitArr, submitButt) {
       resultData.push(["Price",
         submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
-      if(!result0[0][1][2]) resultData[0][1] = submitArr[0].name + " is not in " + submitArr[0].year + " survey";
-      if(!result1[0][1][2]) resultData[0][2] = submitArr[1].name + " is not in " + submitArr[1].year + " survey";
-      for(var i=2; i<result0[0][0].length-2; i+=2) {
+      if(!result0[0][1][2]) 
+        resultData[0][1] = submitArr[0].name + 
+                            " is not in "+ submitArr[0].year + 
+                            " survey";
+      if(!result1[0][1][2]) 
+        resultData[0][2] = submitArr[1].name + 
+                            " is not in "+ submitArr[1].year + 
+                            " survey";
+      for(var i = 2; i < result0[0][0].length - 2; i += 2) {
         var temp = [];
         temp.push(label[result0[0][0][i]]);
         temp.push(parseInt(result0[0][1][i]));
@@ -188,11 +207,15 @@ function getValueofUnits(submitArr, submitButt) {
       drawStuff(resultData, submitArr);
     }
     else {
-      $("#data-chart").append("<p>Sorry, both districts are not in the survey.</p>");
+      $("#data-chart").append(
+        "<p>Sorry, both districts are not in the survey.</p>"
+      );
     }
   })
   .fail(function(jqXHR, error) {
-    $('#data-chart').append("<p>" + error + "<p>");
+    $('#data-chart').append(
+      "<p>" + error + "<p>"
+    );
   })
   .always(function() {
     submitButt.toggleClass("waiting");
@@ -206,11 +229,11 @@ function drawStuff(resultData, submitArr) {
   var data = google.visualization.arrayToDataTable(resultData);
   var tempStr = "";
   var tempArr = submitArr[0].name.split(" ");
-  for(var i=0; i<tempArr.length-3; i++)
+  for(var i = 0; i < tempArr.length - 3; i++)
     tempStr += tempArr[i] + " ";
   tempStr += "and ";
   tempArr = submitArr[1].name.split(" ");
-  for(var i=0; i<tempArr.length-3; i++)
+  for(var i = 0; i < tempArr.length - 3; i++)
     tempStr += tempArr[i] + " ";
   var chartWidth = 80;
   if($(document).width() <= 980) chartWidth = 45;
