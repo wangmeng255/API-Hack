@@ -11,7 +11,7 @@ $(function() {
     tempInput.push($("#show-dist option:selected"));
     tempInput.push($("#year option:selected"));
 
-    
+    //deserialize parameters to the form input value
     $("form").deserialize(event.parameters);
 
     //restore the selected options
@@ -97,6 +97,7 @@ $(function() {
   //(but I ddistn't wanted it, i wanted to call it on button click).
   //google.charts.setOnLoadCallback(drawStuff);
 });
+
 var label = {
   B25075_001E: "Total",
   B25075_001M: "Margin of Error",
