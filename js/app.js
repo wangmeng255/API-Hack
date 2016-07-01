@@ -83,12 +83,12 @@ $(function() {
   $("form").submit(function(event) {
     event.preventDefault();
 
-     var submitButt = $("input[type='submit']");
-     submitButt.toggleClass("waiting");
-     submitButt.get(0).disabled = true;
-     submitButt.val("");
-     var submitArr = getsubmitObject($("form").serializeArray());
-     getValueofUnits(submitArr, submitButt);
+    var submitButt = $("input[type='submit']");
+    submitButt.toggleClass("waiting");
+    submitButt.get(0).disabled = true;
+    submitButt.val("");
+    var submitArr = getsubmitObject($("form").serializeArray());
+    getValueofUnits(submitArr, submitButt);
   });
 
   google.charts.load('current', {'packages':['corechart']});
