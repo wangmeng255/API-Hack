@@ -1,10 +1,12 @@
 "use strict"
 $(function() {
 
+//change browser url
   $.address.init(function(event) {
     $("form").address();
   })
   .change(function(event) {
+
     //deserialize would reset the inputs in form
     //tempInput record the input selected iptions
     var tempInput = [];
@@ -19,21 +21,24 @@ $(function() {
     tempInput[1].get(0).selected = true;
   });
 
+//hightlight seleced district in svg
   $("#show-dist").change(function() {
-    //$(".selectG").get(0).classList.remove("selectG");
-    //var district = $("#0" + $(this).val());
-    //district.get(0).classList.add("selectG");
-    $(".selectG").children().remove();
+
+    //clear the previous selected district
+    $(".selectDist").children().remove();
+
+    //copy and paste the selected district
     var district = $("#0" + $(this).val()).children().clone();
     for(var i = 0; i < district.get().length; i++)
-      $(".selectG").append(district.get(i));
+      $(".selectDist").append(district.get(i));
   });
 
   $("#add").click(function() {
     var selectOption = $("#show-dist option:selected");
     var selectYear = $("#year option:selected");
 
-    if(!$("#dist td").length) { // if nothing has been added yet
+    // if nothing has been added yet
+    if(!$("#dist td").length) { 
       $("input[name='dist1']").val(selectOption.val());
       $("input[name='dist1']").text(selectOption.text());
       $("input[name='year1']").val(selectYear.val());
@@ -47,8 +52,8 @@ $(function() {
           selectYear.text() + 
         "</td>"
       );
-
-    } else if($("#dist td").length === 2) { // if one district has been added
+    }// if one district has been added
+    else if($("#dist td").length === 2) { 
       $("input[name='dist2']").val(selectOption.val());
       $("input[name='dist2']").text(selectOption.text());
       $("input[name='year2']").val(selectYear.val());
@@ -64,33 +69,47 @@ $(function() {
       );
     }
 
+    //if two districts are added disable the add button
+    //enable the submit button
     if($("#dist td").length === 4) {
       $("input[type='submit']").get(0).disabled = false;
       $("#add").get(0).disabled = true;
     }
-    else $("#add").get(0).disabled = false;
+
+    //two districts are already added enable the reset button
     $("#reset").get(0).disabled = false;
   });
 
+  //reset button click event
   $("#reset").click(function() {
+
+    //clear the td in #dist table
     $("#dist td").remove();
 
+    //set reset and submit disable and add enable
     $("#reset").get(0).disabled = true;
     $("#add").get(0).disabled = false;
     $("input[type='submit']").get(0).disabled = true;
   });
 
+  //form submit event
   $("form").submit(function(event) {
     event.preventDefault();
 
+    //change submit button to a waiting picture
     var submitButt = $("input[type='submit']");
     submitButt.toggleClass("waiting");
     submitButt.get(0).disabled = true;
     submitButt.val("");
+
+    //get the district name, id and year
     var submitArr = getsubmitObject($("form").serializeArray());
+
+    //send request to server, get the data and plot chart
     getValueofUnits(submitArr, submitButt);
   });
 
+  //load google charts api
   google.charts.load('current', {'packages':['corechart']});
   //This call back will call the drawChart()
   //as soon as the visulization library is loaded,
@@ -98,6 +117,7 @@ $(function() {
   //google.charts.setOnLoadCallback(drawStuff);
 });
 
+//the variable and their meaning, infromation from census.gov
 var label = {
   B25075_001E: "Total",
   B25075_001M: "Margin of Error",
@@ -150,6 +170,8 @@ var label = {
   B25075_025E: "$1,000,000 or more",
   B25075_025M: "Margin of Error"
 };
+
+//parse the name, id and year information from serializeArray
 var getsubmitObject = function(formArr) {
   var submitObject = [];
   submitObject.push({ 
@@ -164,7 +186,9 @@ var getsubmitObject = function(formArr) {
                     });
   return submitObject;
 };
-function getDistrictData(submitYear, submitDist) {
+
+//ajax
+function ajaxRequest(submitYear, submitDist) {
   var code = Object.keys(label);
   return $.ajax({
     url: "//api.census.gov/data/" + submitYear + "/acs1",
@@ -175,21 +199,31 @@ function getDistrictData(submitYear, submitDist) {
     type: "GET"
   });
 }
-function getValueofUnits(submitArr, submitButt) {
-  $.when(
-    getDistrictData(submitArr[0].year, submitArr[0].dist),
-    getDistrictData(submitArr[1].year, submitArr[1].dist)
-  )
-  .done(function(result0, result1) {
-    //console.log(result0);
-    //console.log(result1);
 
+//get the data from server
+function getValueofUnits(submitArr, submitButt) {
+
+  //two ajax are sent to server
+  $.when(
+    ajaxRequest(submitArr[0].year, submitArr[0].dist),
+    ajaxRequest(submitArr[1].year, submitArr[1].dist)
+  )//both ajax are received
+  .done(function(result0, result1) {
+
+    //clear chart area
     $("#data-chart").children().remove();
+
+    //test if the result is null
     if(result0[0][1][2] || result1[0][1][2]) {
       var resultData = [];
+
+      //add the head of data array
+      //the array will be converted to google table
       resultData.push(["Price",
         submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
+
+      //if the result is null, change the data head
       if(!result0[0][1][2]) 
         resultData[0][1] = submitArr[0].name + 
                             " is not in "+ submitArr[0].year + 
@@ -198,6 +232,8 @@ function getValueofUnits(submitArr, submitButt) {
         resultData[0][2] = submitArr[1].name + 
                             " is not in "+ submitArr[1].year + 
                             " survey";
+
+      //add data to array
       for(var i = 2; i < result0[0][0].length - 2; i += 2) {
         var temp = [];
         temp.push(label[result0[0][0][i]]);
@@ -205,19 +241,21 @@ function getValueofUnits(submitArr, submitButt) {
         temp.push(parseInt(result1[0][1][i]));
         resultData.push(temp);
       }
+
+      //draw google chart
       drawStuff(resultData, submitArr);
-    }
+    }//the data is null
     else {
       $("#data-chart").append(
         "<p>Sorry, both districts are not in the survey.</p>"
       );
     }
-  })
+  })//show error information
   .fail(function(jqXHR, error) {
     $('#data-chart').append(
       "<p>" + error + "<p>"
     );
-  })
+  })// disable submit and reset button, clear #dist table and enable add button
   .always(function() {
     submitButt.toggleClass("waiting");
     submitButt.val("Submit");
@@ -226,8 +264,14 @@ function getValueofUnits(submitArr, submitButt) {
     $("#reset").get(0).disabled = true;
   });
 }
+
+//draw google chart
 function drawStuff(resultData, submitArr) {
+
+  //convert array to google datatable
   var data = google.visualization.arrayToDataTable(resultData);
+
+  //add two districts name to chart title
   var tempStr = "";
   var tempArr = submitArr[0].name.split(" ");
   for(var i = 0; i < tempArr.length - 3; i++)
@@ -236,13 +280,18 @@ function drawStuff(resultData, submitArr) {
   tempArr = submitArr[1].name.split(" ");
   for(var i = 0; i < tempArr.length - 3; i++)
     tempStr += tempArr[i] + " ";
+
+  //responsive chart width
   var chartWidth = 80;
   if($(document).width() <= 980) chartWidth = 45;
+
+  //set chart options: width, heigh, title, 
+  //vertical Axis name, horizontal Axis name
+  //seriesType and color
   var options = {
     width: chartWidth*16,
     height: 500,
     title: "Real Estate Value of Home in " + tempStr + "Unified School Districts",
-    subtitle: submitArr[0].year + " and " + submitArr[1].year,
     vAxis: {title: "Number of Units"},
     hAxis: {title: "Price"},
     seriesType: "bars",
@@ -252,6 +301,7 @@ function drawStuff(resultData, submitArr) {
     }
   };
 
+  //generate chart
   var chart = new google.visualization.ComboChart(document.getElementById('data-chart'));
   chart.draw(data, options);
 };

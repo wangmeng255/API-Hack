@@ -1,4 +1,6 @@
-* {
+html, body, header, h1, div,
+form, input, svg, label,
+select, table, td, tr, tbody, p {
 	margin: 0;
 	padding: 0;
 	font-family:  "Roboto", sans-serif;
@@ -95,7 +97,7 @@ input[type="button"]:hover {
 input[disabled] {
 	pointer-events: none;
 }
-.selectG path {
+.selectDist path {
 	fill: #FFD600;
 	outline: 5px solid #F57F17;
 }
