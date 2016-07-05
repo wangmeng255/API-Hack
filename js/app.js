@@ -1,14 +1,14 @@
 "use strict"
 $(function() {
 
-//change browser url
+  //change browser url
   $.address.init(function(event) {
     $("form").address();
   })
   .change(function(event) {
 
     //deserialize would reset the inputs in form
-    //tempInput record the input selected iptions
+    //tempInput record the input selected options
     var tempInput = [];
     tempInput.push($("#show-dist option:selected"));
     tempInput.push($("#year option:selected"));
@@ -33,6 +33,7 @@ $(function() {
       $(".selectDist").append(district.get(i));
   });
 
+  //add button click event
   $("#add").click(function() {
     var selectOption = $("#show-dist option:selected");
     var selectYear = $("#year option:selected");
@@ -111,10 +112,6 @@ $(function() {
 
   //load google charts api
   google.charts.load('current', {'packages':['corechart']});
-  //This call back will call the drawChart()
-  //as soon as the visulization library is loaded,
-  //(but I ddistn't wanted it, i wanted to call it on button click).
-  //google.charts.setOnLoadCallback(drawStuff);
 });
 
 //the variable and their meaning, infromation from census.gov
@@ -215,23 +212,26 @@ function getValueofUnits(submitArr, submitButt) {
 
     //test if the result is null
     if(result0[0][1][2] || result1[0][1][2]) {
+
+      //data array will be converted to google table
       var resultData = [];
 
       //add the head of data array
-      //the array will be converted to google table
       resultData.push(["Price",
         submitArr[0].name + " in " + submitArr[0].year,
         submitArr[1].name + " in " + submitArr[1].year]);
 
       //if the result is null, change the data head
-      if(!result0[0][1][2]) 
+      if(!result0[0][1][2]) {
         resultData[0][1] = submitArr[0].name + 
                             " is not in "+ submitArr[0].year + 
                             " survey";
-      if(!result1[0][1][2]) 
+      }
+      if(!result1[0][1][2]) {
         resultData[0][2] = submitArr[1].name + 
                             " is not in "+ submitArr[1].year + 
                             " survey";
+      }
 
       //add data to array
       for(var i = 2; i < result0[0][0].length - 2; i += 2) {
