@@ -1081,114 +1081,129 @@
 		</section>
 		<section class="user-form">
 			<form action="api.census.gov">
-				<div>
-					<div>
-						<label for="show-dist">Choose School District: </label><br>
-						<select id="show-dist" size="10" autofocus>
-							<option value="601620" selected>ABC Unified School District</option>
-							<option value="602430">Alvord Unified School District</option>
-							<option value="602850">Antioch Unified School District</option>
-							<option value="600017">Apple Valley Unified School District</option>
-							<option value="603600">Azusa Unified School District</option>
-							<option value="607440">Capistrano Unified School District</option>
-							<option value="607970">Central Unified School District</option>
-							<option value="608370">Chico Unified School District</option>
-							<option value="608460">Chino Valley Unified School District</option>
-							<option value="609030">Clovis Unified School District</option>
-							<option value="609070">Coachella Valley Unified School District</option>
-							<option value="609390">Colton Joint Unified School District</option>
-							<option value="609620">Compton Unified School District</option>
-							<option value="609640">Conejo Valley Unified School District</option>
-							<option value="609850">Corona-Norco Unified School District</option>
-							<option value="611110">Desert Sands Unified School District</option>
-							<option value="612330">Elk Grove Unified School District</option>
-							<option value="613360">Fairfield-Suisun Unified School District</option>
-							<option value="613890">Folsom-Cordova Unified School District</option>
-							<option value="613920">Fontana Unified School District</option>
-							<option value="614400">Fremont Unified School District</option>
-							<option value="614550">Fresno Unified School District</option>
-							<option value="614880">Garden Grove Unified School District</option>
-							<option value="616740">Hayward Unified School District</option>
-							<option value="616920">Hemet Unified School District</option>
-							<option value="600014">Hesperia Unified School District</option>
-							<option value="619260">Jurupa Unified School District</option>
-							<option value="600027">Lake Elsinore Unified School District</option>
-							<option value="622230">Lodi Unified School District</option>
-							<option value="622500">Long Beach Unified School District</option>
-							<option value="622710">Los Angeles Unified School District</option>
-							<option value="623080">Lucia Mar Unified School District</option>
-							<option value="623340">Madera Unified School District</option>
-							<option value="623610">Manteca Unified School District</option>
-							<option value="625470">Montebello Unified School District</option>
-							<option value="625800">Moreno Valley Unified School District</option>
-							<option value="625860">Morongo Unified School District</option>
-							<option value="626370">Mount Diablo Unified School District</option>
-							<option value="626640">Napa Valley Unified School District</option>
-							<option value="627240">Newport-Mesa Unified School District</option>
-							<option value="627690">Norwalk-La Mirada Unified School District</option>
-							<option value="628050">Oakland Unified School District</option>
-							<option value="628250">Oceanside Unified School District</option>
-							<option value="628650">Orange Unified School District</option>
-							<option value="629550">Palm Springs Unified School District</option>
-							<option value="629850">Paramount Unified School District</option>
-							<option value="630660">Placentia-Yorba Linda Unified School District</option>
-							<option value="631320">Pomona Unified School District</option>
-							<option value="631530">Poway Unified School District</option>
-							<option value="632070">Redlands Unified School District</option>
-							<option value="632370">Rialto Unified School District</option>
-							<option value="633150">Riverside Unified School District</option>
-							<option value="633750">Rowland Unified School District</option>
-							<option value="633840">Sacramento City Unified School District</option>
-							<option value="633860">Saddleback Valley Unified School District</option>
-							<option value="634170">San Bernardino City Unified School District</option>
-							<option value="634320">San Diego City Unified School District</option>
-							<option value="634410">San Francisco Unified School District</option>
-							<option value="634590">San Jose Unified School District</option>
-							<option value="634620">San Juan Unified School District</option>
-							<option value="634880">San Marcos Unified School District</option>
-							<option value="635310">Santa Ana Unified School District</option>
-							<option value="635430">Santa Clara Unified School District</option>
-							<option value="636840">Simi Valley Unified School District</option>
-							<option value="638010">Stockton Unified School District</option>
-							<option value="600158">Turlock Unified School District</option>
-							<option value="640150">Tustin Unified School District</option>
-							<option value="601332">Twin Rivers Unified School District</option>
-							<option value="640590">Vacaville Unified School District</option>
-							<option value="640740">Vallejo City Unified School District</option>
-							<option value="640980">Ventura Unified School District</option>
-							<option value="641160">Visalia Unified School District</option>
-							<option value="641190">Vista Unified School District</option>
-							<option value="632550">West Contra Costa Unified School District</option>
-							<option value="643470">Yuba City Unified School District</option>
-						</select>
-					</div>
-					<div>
-						<label for="year">Year:</label><br>
-						<select id="year">
-							<option value="2014" selected>2014</option>
-							<option value="2013">2013</option>
-							<option value="2012">2012</option>
-						</select><br>
-						<input type="button" id="add" value="Add" /><br>
-						<input type="button" id="reset" value="Reset" disabled />
-					</div>
-				</div>
-				<div>
-					<div>
-						<input type="hidden" id="d1" name="dist1">
-						<input type="hidden" id="d2" name="dist2">
-						<input type="hidden" id="d1y" name="year1">
-						<input type="hidden" id="d2y" name="year2">
-						<label for="dist">Compare Two Districts: </label><br>
-						<table id="dist">
-							<tbody>
-								<tr></tr>
-								<tr></tr>
-							</tbody>
-						</table>
-					</div>
-					<input type="submit" class="sub" value="Submit" disabled />
-				</div>
+				<table>
+					<tbody>
+						<tr id="choose-dist">
+							<td>
+								<label for="show-dist">Choose School District: </label><br>
+								<select id="show-dist" size="1" autofocus>
+									<option value="601620" selected>ABC Unified School District</option>
+									<option value="602430">Alvord Unified School District</option>
+									<option value="602850">Antioch Unified School District</option>
+									<option value="600017">Apple Valley Unified School District</option>
+									<option value="603600">Azusa Unified School District</option>
+									<option value="607440">Capistrano Unified School District</option>
+									<option value="607970">Central Unified School District</option>
+									<option value="608370">Chico Unified School District</option>
+									<option value="608460">Chino Valley Unified School District</option>
+									<option value="609030">Clovis Unified School District</option>
+									<option value="609070">Coachella Valley Unified School District</option>
+									<option value="609390">Colton Joint Unified School District</option>
+									<option value="609620">Compton Unified School District</option>
+									<option value="609640">Conejo Valley Unified School District</option>
+									<option value="609850">Corona-Norco Unified School District</option>
+									<option value="611110">Desert Sands Unified School District</option>
+									<option value="612330">Elk Grove Unified School District</option>
+									<option value="613360">Fairfield-Suisun Unified School District</option>
+									<option value="613890">Folsom-Cordova Unified School District</option>
+									<option value="613920">Fontana Unified School District</option>
+									<option value="614400">Fremont Unified School District</option>
+									<option value="614550">Fresno Unified School District</option>
+									<option value="614880">Garden Grove Unified School District</option>
+									<option value="616740">Hayward Unified School District</option>
+									<option value="616920">Hemet Unified School District</option>
+									<option value="600014">Hesperia Unified School District</option>
+									<option value="619260">Jurupa Unified School District</option>
+									<option value="600027">Lake Elsinore Unified School District</option>
+									<option value="622230">Lodi Unified School District</option>
+									<option value="622500">Long Beach Unified School District</option>
+									<option value="622710">Los Angeles Unified School District</option>
+									<option value="623080">Lucia Mar Unified School District</option>
+									<option value="623340">Madera Unified School District</option>
+									<option value="623610">Manteca Unified School District</option>
+									<option value="625470">Montebello Unified School District</option>
+									<option value="625800">Moreno Valley Unified School District</option>
+									<option value="625860">Morongo Unified School District</option>
+									<option value="626370">Mount Diablo Unified School District</option>
+									<option value="626640">Napa Valley Unified School District</option>
+									<option value="627240">Newport-Mesa Unified School District</option>
+									<option value="627690">Norwalk-La Mirada Unified School District</option>
+									<option value="628050">Oakland Unified School District</option>
+									<option value="628250">Oceanside Unified School District</option>
+									<option value="628650">Orange Unified School District</option>
+									<option value="629550">Palm Springs Unified School District</option>
+									<option value="629850">Paramount Unified School District</option>
+									<option value="630660">Placentia-Yorba Linda Unified School District</option>
+									<option value="631320">Pomona Unified School District</option>
+									<option value="631530">Poway Unified School District</option>
+									<option value="632070">Redlands Unified School District</option>
+									<option value="632370">Rialto Unified School District</option>
+									<option value="633150">Riverside Unified School District</option>
+									<option value="633750">Rowland Unified School District</option>
+									<option value="633840">Sacramento City Unified School District</option>
+									<option value="633860">Saddleback Valley Unified School District</option>
+									<option value="634170">San Bernardino City Unified School District</option>
+									<option value="634320">San Diego City Unified School District</option>
+									<option value="634410">San Francisco Unified School District</option>
+									<option value="634590">San Jose Unified School District</option>
+									<option value="634620">San Juan Unified School District</option>
+									<option value="634880">San Marcos Unified School District</option>
+									<option value="635310">Santa Ana Unified School District</option>
+									<option value="635430">Santa Clara Unified School District</option>
+									<option value="636840">Simi Valley Unified School District</option>
+									<option value="638010">Stockton Unified School District</option>
+									<option value="600158">Turlock Unified School District</option>
+									<option value="640150">Tustin Unified School District</option>
+									<option value="601332">Twin Rivers Unified School District</option>
+									<option value="640590">Vacaville Unified School District</option>
+									<option value="640740">Vallejo City Unified School District</option>
+									<option value="640980">Ventura Unified School District</option>
+									<option value="641160">Visalia Unified School District</option>
+									<option value="641190">Vista Unified School District</option>
+									<option value="632550">West Contra Costa Unified School District</option>
+									<option value="643470">Yuba City Unified School District</option>
+								</select>
+							</td>
+							<td>
+								<label for="year">Year:</label><br>
+								<select id="year">
+									<option value="2014" selected>2014</option>
+									<option value="2013">2013</option>
+									<option value="2012">2012</option>
+								</select>
+							</td>
+						</tr>
+						<tr id="add-reset">
+							<td>
+								<input type="button" id="add" value="Add" />
+							<td>
+								<input type="button" id="reset" value="Reset" disabled />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" id="d1" name="dist1">
+								<input type="hidden" id="d2" name="dist2">
+								<input type="hidden" id="d1y" name="year1">
+								<input type="hidden" id="d2y" name="year2">
+								<label for="dist">Compare Two Districts: </label>
+							</td>
+							<td></td>
+						<tr>
+							<td>
+								<table id="dist">
+									<tbody>
+										<tr></tr>
+										<tr></tr>
+									</tbody>
+								</table>
+							</td>
+							<td>
+								<input type="submit" class="sub" value="Submit" disabled />
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</form>
 		</section>
 	</section>
