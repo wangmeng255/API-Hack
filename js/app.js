@@ -282,14 +282,13 @@ function drawStuff(resultData, submitArr) {
     tempStr += tempArr[i] + " ";
 
   //responsive chart width
-  var chartWidth = 80;
-  if($(document).width() <= 980) chartWidth = 45;
+  var chartWidth = $(document).width() * 0.95;
 
   //set chart options: width, heigh, title, 
   //vertical Axis name, horizontal Axis name
   //seriesType and color
   var options = {
-    width: chartWidth*16,
+    width: chartWidth,
     height: 500,
     title: "Real Estate Value of Home in " + tempStr + "Unified School Districts",
     vAxis: {title: "Number of Units"},

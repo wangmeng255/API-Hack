@@ -110,17 +110,29 @@ input[disabled] {
 }
 @media only screen and (max-width: 980px) {
 	.upper {
-		width: 90%;
+		width: 95%;
 		margin: auto;
 		display: block;
+	}
+	.dist-svg svg {
+		width: 100%;
+	}
+	form {
+		width: 100%;
+	}
+	#dist, #show-dist {
+		width: 90%;
+	}
+	#add {
+		width: 20%;
+	}
+	#reset, #year, .sub {
+		width: 100%;
 	}
 	#data-chart {
 		width: 100%;
 	}
 	#data-chart p {
 		width: 90%;
-	}
-	#add, #reset {
-		width: 100%;
 	}
 }
