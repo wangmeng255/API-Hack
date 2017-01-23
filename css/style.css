@@ -33,7 +33,6 @@ header {
 }
 form {
 	width: 40rem;
-	height: 21rem;
 }
 form>div {
 	margin-top: 0.8rem;
@@ -119,7 +118,7 @@ input[disabled] {
 }
 @media only screen and (max-width: 980px) {
 	.upper {
-		width: 40rem;
+		width: 90%;
 		margin: auto;
 		display: block;
 	}
