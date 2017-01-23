@@ -2,7 +2,7 @@
 
 Thinkful (https://www.thinkful.com) Portfolio Exercise - jQuery app integrating with U.S. census collections API.
 
-![Screenshot](https://github.com/wangmeng255/API-Hack/blob/staging/img/CA-home-value.png "Screenshot")
+![Screenshot](https://github.com/wangmeng255/API-Hack/blob/gh-pages/img/CA-home-value.png "Screenshot")
 
 ##Background
 
@@ -16,7 +16,7 @@ Why is this app useful? If you are struggling to get recent value and trending o
 
 The initial mobile and desktop wireframes can be seen below:
 
-![Initial Wireframes](https://github.com/wangmeng255/API-Hack/blob/staging/img/CA-home-value-init.png "Initial Wireframes")
+![Initial Wireframes](https://github.com/wangmeng255/API-Hack/blob/gh-pages/img/CA-home-value-init.png "Initial Wireframes")
 
 ##Working Prototype
 
