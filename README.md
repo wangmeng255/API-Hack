@@ -1,28 +1,28 @@
-#Home Values in CA School Districts
+# Home Values in CA School Districts
 
 Thinkful (https://www.thinkful.com) Portfolio Exercise - jQuery app integrating with U.S. census collections API.
 
 ![Screenshot](https://github.com/wangmeng255/API-Hack/blob/gh-pages/img/CA-home-value.png "Screenshot")
 
-##Background
+## Background
 
 I built this app drawing on my experience from buying a home in California. The school district is an important factor that influences value of the home. I want to compare home value in two school districts, especially when two school districts have similar education ratings. And I also want to get trending of home prices in one school district.
 
-##Use Case
+## Use Case
 
 Why is this app useful? If you are struggling to get recent value and trending of home prices in a unified school district in California, this app allows you to get data directly from U.S. census collections and provides a chart to help you to get trending of prices.
 
-##Initial UX
+## Initial UX
 
 The initial mobile and desktop wireframes can be seen below:
 
 ![Initial Wireframes](https://github.com/wangmeng255/API-Hack/blob/gh-pages/img/CA-home-value-init.png "Initial Wireframes")
 
-##Working Prototype
+## Working Prototype
 
 You can access a working prototype of the app here: (https://wangmeng255.github.io/API-Hack/)
 
-##Functionality
+## Functionality
 
 The app's functionality includes:
 
@@ -32,11 +32,11 @@ The app's functionality includes:
 * Reseting selected districts by clicking reset button.
 * A column plot of home prices of two different school districts or home prices of one school district in two different years (2012-2014).
 
-##Technical
+## Technical
 
 The app is built entirely in jQuery and makes use of AJAX calls to U.S. census collections API to return the data. All data is held in memory during the user's session. It has been built to be fully responsive across mobile, tablet and desktop screen resolutions.
 
-##Development Roadmap
+## Development Roadmap
 
 This is v1.0 of the app, but future enhancements are expected to include:
 
