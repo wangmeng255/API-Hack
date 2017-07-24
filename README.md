@@ -1,6 +1,6 @@
 # Home Values in CA School Districts
 
-Thinkful (https://www.thinkful.com) Portfolio Exercise - jQuery app integrating with U.S. census collections API.
+Portfolio Exercise - jQuery app integrating with U.S. census collections API.
 
 ![Screenshot](https://github.com/wangmeng255/API-Hack/blob/gh-pages/img/CA-home-value.png "Screenshot")
 
